@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Play — Lucky Drift</title>
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="brand">Lucky Drift</div>
+      <nav class="nav">
+        <a href="index.html">Home</a>
+        <a href="play.html" class="active">Play</a>
+        <a href="account.html">Account</a>
+      </nav>
+    </header>
+
+    <main class="page">
+      <section class="game-wrap">
+        <div class="panel">
+          <div class="panel-header">
+            <h1>Single-Reel Spin</h1>
+            <p>Cost per spin: <strong>25 coins</strong></p>
+          </div>
+
+          <div class="slot">
+            <div class="slot-symbol" id="slotSymbol">★</div>
+          </div>
+
+          <div class="controls">
+            <button id="spinBtn" class="btn primary">Spin</button>
+            <button id="autoBtn" class="btn ghost">Auto x5</button>
+          </div>
+
+          <div class="status">
+            <div>
+              Balance: <span id="balance" class="mono">0</span> coins
+            </div>
+            <div id="message">Ready to spin.</div>
+          </div>
+        </div>
+
+        <aside class="panel rules">
+          <h2>Payout Table</h2>
+          <ul class="payouts">
+            <li>Seven: 10x</li>
+            <li>Star: 5x</li>
+            <li>Bell: 3x</li>
+            <li>Cherry: 2x</li>
+            <li>Lemon: 1x</li>
+          </ul>
+          <p class="note">Demo-only. No real money or prizes.</p>
+        </aside>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <span>Demo only. No real currency. Educational build.</span>
+    </footer>
+
+    <script src="js/app.js"></script>
+  </body>
+</html>

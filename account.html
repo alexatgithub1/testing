@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Account — Lucky Drift</title>
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="brand">Lucky Drift</div>
+      <nav class="nav">
+        <a href="index.html">Home</a>
+        <a href="play.html">Play</a>
+        <a href="account.html" class="active">Account</a>
+      </nav>
+    </header>
+
+    <main class="page">
+      <section class="account">
+        <div class="panel">
+          <h1>Your Demo Wallet</h1>
+          <p class="balance">Balance: <span id="balance" class="mono">0</span> coins</p>
+          <button id="bonusBtn" class="btn primary">Claim Daily +200</button>
+          <p id="bonusMessage" class="note">Claim once per day.</p>
+        </div>
+
+        <div class="panel">
+          <h2>Settings</h2>
+          <button id="resetBtn" class="btn ghost">Reset Demo Wallet</button>
+          <p class="note">This clears your local demo balance.</p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <span>Demo only. No real currency. Educational build.</span>
+    </footer>
+
+    <script src="js/app.js"></script>
+  </body>
+</html>
