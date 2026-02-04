@@ -95,6 +95,7 @@ a {
   font-size: 0.95rem;
 }
 
+.nav a.active,
 .nav a:hover {
   color: var(--text);
 }
@@ -103,6 +104,10 @@ main {
   padding: 3rem 4vw 4rem;
   position: relative;
   z-index: 1;
+}
+
+.calculator {
+  padding-top: 2rem;
 }
 
 .hero {
@@ -400,6 +405,188 @@ main {
   font-size: 0.85rem;
 }
 
+.calc-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
+
+.inputs h2,
+.outputs h2 {
+  margin-bottom: 1rem;
+}
+
+.input-group {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.input-group label {
+  font-size: 0.85rem;
+}
+
+.input-group input[type="range"] {
+  width: 100%;
+}
+
+.range-value {
+  display: block;
+  margin-top: 0.4rem;
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.outputs {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.output-cards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.output-card {
+  background: var(--panel-soft);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 1rem 1.2rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.output-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at top right, rgba(0, 222, 62, 0.18), transparent 60%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.output-card:hover::after {
+  opacity: 1;
+}
+
+.output-card span {
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.output-card strong {
+  display: block;
+  font-size: 1.4rem;
+  margin-top: 0.4rem;
+  position: relative;
+  z-index: 1;
+}
+
+.output-meta {
+  display: inline-flex;
+  margin-top: 0.6rem;
+  font-size: 0.8rem;
+  color: var(--muted);
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  border: 1px solid rgba(0, 222, 62, 0.3);
+  background: rgba(0, 222, 62, 0.08);
+  width: fit-content;
+  position: relative;
+  z-index: 1;
+}
+
+.chart {
+  background: var(--panel-soft);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 1rem;
+  position: relative;
+}
+
+.chart svg {
+  width: 100%;
+  height: 280px;
+}
+
+.chart-axis {
+  fill: var(--muted);
+  font-size: 10px;
+}
+
+.chart-grid {
+  stroke: rgba(193, 193, 193, 0.12);
+  stroke-width: 1;
+}
+
+.chart-baseline {
+  fill: none;
+  stroke: rgba(245, 246, 241, 0.45);
+  stroke-width: 2;
+  stroke-dasharray: 4 4;
+}
+
+.chart-point {
+  fill: #00de3e;
+  stroke: #080808;
+  stroke-width: 2;
+  opacity: 0.9;
+  transition: r 0.2s ease, opacity 0.2s ease;
+}
+
+.chart-point:hover {
+  r: 6;
+  opacity: 1;
+}
+
+.chart-meta {
+  margin-top: 0.8rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.chart-tooltip {
+  position: absolute;
+  padding: 0.5rem 0.8rem;
+  border-radius: 10px;
+  background: rgba(8, 8, 8, 0.85);
+  border: 1px solid rgba(0, 222, 62, 0.45);
+  color: var(--text);
+  font-size: 0.8rem;
+  pointer-events: none;
+  opacity: 0;
+  transform: translate(-50%, -100%);
+  transition: opacity 0.2s ease;
+  white-space: nowrap;
+  z-index: 2;
+}
+
+.table-wrap {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+th,
+td {
+  padding: 0.8rem 0.6rem;
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+}
+
+thead {
+  color: var(--muted);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
 .contact {
   display: grid;
   grid-template-columns: 1fr 1.2fr;
@@ -461,7 +648,8 @@ label.full {
   .grid-2,
   .grid-3,
   .timeline,
-  .contact {
+  .contact,
+  .calc-grid {
     grid-template-columns: 1fr;
   }
 
@@ -490,6 +678,11 @@ label.full {
 
   .hero-metrics,
   .stats {
+    grid-template-columns: 1fr;
+  }
+
+  .input-group,
+  .output-cards {
     grid-template-columns: 1fr;
   }
 
