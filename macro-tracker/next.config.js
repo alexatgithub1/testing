@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: 'export',
-  basePath: '/macro-tracker',
+  basePath: '/testing',
   images: {
     unoptimized: true,
   },
