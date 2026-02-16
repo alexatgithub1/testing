@@ -4,11 +4,13 @@ import { BarChart, Bar, LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContai
 import { mockData } from '@/lib/mockData'
 
 export default function MonetizationEconomics() {
-  const gaugeAngle = ((mockData.rewardPayout.current - 50) / 40) * 180 - 90
+  // Gauge: 60% = left, 80% = right. Needle angle in radians (0 = right, π = left).
+  const gaugePct = mockData.rewardPayout.current
+  const needleAngleRad = ((270 + ((gaugePct - 60) / 20) * 180) * Math.PI) / 180
 
   return (
-    <section className="mb-8">
-      <h2 className="text-2xl font-semibold mb-6 text-text-primary">
+    <section>
+      <h2 className="text-xl font-semibold text-text-primary mb-6 tracking-tight uppercase">
         Monetization & Economics
       </h2>
 
@@ -58,8 +60,13 @@ export default function MonetizationEconomics() {
           </div>
 
           <div className="mt-4 p-3 bg-background/50 rounded text-sm text-text-secondary">
-            <span className="text-warning-yellow">💡</span> Ad revenue still 49% of total. Diversification progress slow.
+            <span className="text-warning-yellow">Insight:</span> Ad revenue still 49% of total. Diversification progress slow.
           </div>
+          {[49, 31, 20].some((pct) => pct > 70) && (
+            <div className="mt-2 p-3 bg-danger-red/10 border border-danger-red rounded text-sm text-danger-red">
+              Revenue concentration risk
+            </div>
+          )}
         </div>
 
         {/* ARPDAU & ARPU */}
@@ -249,8 +256,8 @@ export default function MonetizationEconomics() {
                 <line
                   x1="100"
                   y1="100"
-                  x2={100 + 60 * Math.cos((gaugeAngle * Math.PI) / 180)}
-                  y2={100 + 60 * Math.sin((gaugeAngle * Math.PI) / 180)}
+                  x2={100 + 60 * Math.cos(needleAngleRad)}
+                  y2={100 + 60 * Math.sin(needleAngleRad)}
                   stroke="#10B981"
                   strokeWidth="3"
                 />
@@ -268,16 +275,21 @@ export default function MonetizationEconomics() {
           </div>
 
           <div className="flex justify-between text-sm text-text-secondary mt-4">
-            <span>50%</span>
+            <span>60%</span>
             <span className="text-accent-green">
-              Safe: {mockData.rewardPayout.targetMin}%-{mockData.rewardPayout.targetMax}%
+              Safe zone: {mockData.rewardPayout.targetMin}–{mockData.rewardPayout.targetMax}%
             </span>
-            <span>90%</span>
+            <span>80%</span>
           </div>
 
           {mockData.rewardPayout.current > 80 && (
             <div className="mt-4 p-3 bg-danger-red/10 border border-danger-red rounded text-sm text-danger-red">
-              ⚠️ Unsustainable payout - check promo abuse
+              Unsustainable payout — check promo abuse
+            </div>
+          )}
+          {mockData.rewardPayout.current < 60 && (
+            <div className="mt-4 p-3 bg-warning-yellow/10 border border-warning-yellow rounded text-sm text-warning-yellow">
+              Low payout — retention risk
             </div>
           )}
         </div>

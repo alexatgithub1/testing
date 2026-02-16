@@ -1,6 +1,5 @@
 'use client'
 
-import { AlertTriangle, AlertCircle, CheckCircle } from 'lucide-react'
 import { mockData } from '@/lib/mockData'
 
 interface RiskCardProps {
@@ -9,27 +8,26 @@ interface RiskCardProps {
   change?: number
   subtitle?: string
   status: 'good' | 'warning' | 'danger'
-  icon?: React.ReactNode
+}
+
+const statusEmoji: Record<'good' | 'warning' | 'danger', string> = {
+  good: '🟢',
+  warning: '⚠️',
+  danger: '🔴',
 }
 
 function RiskCard({ title, value, change, subtitle, status }: RiskCardProps) {
   const statusColors = {
-    good: 'border-accent-green text-accent-green',
-    warning: 'border-warning-yellow text-warning-yellow',
-    danger: 'border-danger-red text-danger-red',
-  }
-
-  const statusIcons = {
-    good: <CheckCircle className="w-5 h-5" />,
-    warning: <AlertTriangle className="w-5 h-5" />,
-    danger: <AlertCircle className="w-5 h-5" />,
+    good: 'border-accent-green',
+    warning: 'border-warning-yellow',
+    danger: 'border-danger-red',
   }
 
   return (
-    <div className={`bg-card rounded-lg p-6 border-2 ${statusColors[status]} hover:shadow-lg transition-all`}>
+    <div className={`bg-card rounded-lg p-6 border-2 ${statusColors[status]} hover:border-opacity-80 transition-all min-h-[220px] flex flex-col`}>
       <div className="flex items-center gap-2 mb-3">
-        {statusIcons[status]}
-        <h3 className="text-sm font-semibold uppercase tracking-wide">
+        <span className="text-lg">{statusEmoji[status]}</span>
+        <h3 className="text-sm font-semibold uppercase tracking-wide text-text-primary">
           {title}
         </h3>
       </div>
@@ -55,8 +53,8 @@ function RiskCard({ title, value, change, subtitle, status }: RiskCardProps) {
 
 export default function RiskLeakage() {
   return (
-    <section className="mb-8">
-      <h2 className="text-2xl font-semibold mb-6 text-text-primary">
+    <section>
+      <h2 className="text-xl font-semibold text-text-primary mb-6 tracking-tight uppercase">
         Risk & Leakage
       </h2>
 
@@ -73,7 +71,7 @@ export default function RiskLeakage() {
           title="WHALE DEPEND."
           value={mockData.whaleDependency.value}
           change={mockData.whaleDependency.change}
-          subtitle="% revenue from top 5%"
+          subtitle="Concentration: High risk"
           status={mockData.whaleDependency.value > 50 ? 'danger' : mockData.whaleDependency.value > 40 ? 'warning' : 'good'}
         />
 
@@ -89,7 +87,7 @@ export default function RiskLeakage() {
           title="PROMO DEPEND."
           value={mockData.promoDependency.value}
           change={mockData.promoDependency.change}
-          subtitle={`Organic DAU: ${mockData.promoDependency.organicDau.toLocaleString()}`}
+          subtitle={`Organic DAU: ${mockData.promoDependency.organicDau.toLocaleString()} (36%)`}
           status={mockData.promoDependency.value > 60 ? 'danger' : mockData.promoDependency.value > 40 ? 'warning' : 'good'}
         />
 

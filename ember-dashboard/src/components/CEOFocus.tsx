@@ -32,7 +32,7 @@ function InsightCard({ type, title, message, action }: InsightCardProps) {
   const config = typeConfig[type]
 
   return (
-    <div className={`bg-card rounded-lg p-6 border-l-4 ${config.borderColor} border border-grid hover:shadow-lg transition-all`}>
+    <div className={`bg-card rounded-lg p-6 border-l-4 ${config.borderColor} border border-grid hover:border-opacity-80 transition-all min-h-[120px]`}>
       <div className="flex items-center gap-3 mb-4">
         <div className={config.iconColor}>{config.icon}</div>
         <h3 className="text-lg font-semibold text-text-primary">{title}</h3>
@@ -50,9 +50,15 @@ function InsightCard({ type, title, message, action }: InsightCardProps) {
 }
 
 export default function CEOFocus() {
+  const titleWithEmoji: Record<string, string> = {
+    priority: '🎯 TOP PRIORITY',
+    upside: '📈 BIGGEST UPSIDE LEVER',
+    warning: '⚠️ EARLY WARNING',
+  }
+
   return (
     <section>
-      <h2 className="text-2xl font-semibold mb-6 text-text-primary">
+      <h2 className="text-xl font-semibold text-text-primary mb-6 tracking-tight uppercase">
         CEO Focus This Week
       </h2>
 
@@ -61,12 +67,15 @@ export default function CEOFocus() {
           <InsightCard
             key={index}
             type={insight.type as 'priority' | 'upside' | 'warning'}
-            title={insight.title}
+            title={titleWithEmoji[insight.type] || insight.title}
             message={insight.message}
             action={insight.action}
           />
         ))}
       </div>
+      <p className="mt-4 text-text-secondary/70 text-xs">
+        Generated {new Date().toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' })} · Based on data through same period.
+      </p>
     </section>
   )
 }

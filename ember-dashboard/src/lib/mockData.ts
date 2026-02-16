@@ -30,6 +30,17 @@ export const mockData = {
     weeklyBurn: -89000,
     breakEven: 'Q3 2026',
   },
+  wagerVolume: {
+    value: 8.42, // $M wagered (MTD or LW)
+    change: 5.8,
+    sparkline: [7.2, 7.5, 7.8, 8.0, 8.1, 8.2, 8.42],
+    label: 'MTD',
+  },
+  ggr: {
+    value: 412000, // Gross Gaming Revenue $
+    change: 8.2,
+    sparkline: [360000, 372000, 385000, 395000, 402000, 408000, 412000],
+  },
 
   // Growth Quality
   newUsers: {

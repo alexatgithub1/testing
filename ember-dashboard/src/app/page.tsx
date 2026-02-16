@@ -1,92 +1,109 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useCallback } from 'react'
 import ExecutiveSnapshot from '@/components/ExecutiveSnapshot'
 import GrowthQuality from '@/components/GrowthQuality'
 import MonetizationEconomics from '@/components/MonetizationEconomics'
 import RiskLeakage from '@/components/RiskLeakage'
 import CEOFocus from '@/components/CEOFocus'
 import FileUpload from '@/components/FileUpload'
-import { Database, Upload as UploadIcon, ListOrdered } from 'lucide-react'
+import { Database, Upload as UploadIcon, ListOrdered, Copy, Check } from 'lucide-react'
 import Link from 'next/link'
+import { mockData } from '@/lib/mockData'
+
+const DATA_AS_OF = new Date()
 
 export default function Dashboard() {
   const [showUpload, setShowUpload] = useState(false)
   const [hasUploadedData, setHasUploadedData] = useState(false)
+  const [copied, setCopied] = useState(false)
 
   const handleDataAnalyzed = (data: any) => {
     console.log('Data analyzed:', data)
     setHasUploadedData(true)
     setShowUpload(false)
-    // Here you could update a global state or context with the analyzed data
   }
 
+  const copySummary = useCallback(() => {
+    try {
+      const r = mockData.revenue
+      const gm = mockData.grossMargin
+      const dau = mockData.dau
+      const mau = mockData.mau
+      const wv = mockData.wagerVolume
+      const ggr = mockData.ggr
+      const lines = [
+        'Ember CEO Dashboard — Executive Snapshot',
+        `Data as of: ${DATA_AS_OF.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' })}`,
+        '',
+        `Net Revenue (MTD): $${(r.mtd / 1000).toFixed(0)}K (${r.change}% vs LM)`,
+        `Gross Margin: ${gm.value}% (${gm.change}% vs LM)`,
+        `DAU: ${dau.value.toLocaleString()} (${dau.change}% vs LW)`,
+        `MAU: ${(mau.value / 1_000_000).toFixed(2)}M (${mau.change}% vs LM)`,
+        `Wager Volume: $${wv.value}M ${wv.label} (${wv.change}% vs LM)`,
+        `GGR: $${(ggr.value / 1000).toFixed(0)}K (${ggr.change}% vs LM)`,
+      ]
+      const text = lines.join('\n')
+      if (typeof navigator !== 'undefined' && navigator.clipboard?.writeText) {
+        navigator.clipboard.writeText(text).then(() => {
+          setCopied(true)
+          setTimeout(() => setCopied(false), 2000)
+        }).catch(() => {})
+      }
+    } catch (_) { /* ignore */ }
+  }, [])
+
   return (
-    <div className="min-h-screen bg-background p-8">
-      {/* Header */}
-      <header className="mb-12">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-4xl font-bold text-text-primary mb-2">
-              Ember <span className="text-accent-green">CEO Dashboard</span>
-            </h1>
-            <p className="text-text-secondary">
-              Executive Decision Cockpit • Updated {new Date().toLocaleDateString('en-US', {
-                weekday: 'short',
-                year: 'numeric',
-                month: 'short',
-                day: 'numeric'
-              })}
-            </p>
-          </div>
-
-          <div className="flex items-center gap-4">
-            {hasUploadedData && (
-              <div className="px-3 py-1 bg-accent-green/20 rounded-full text-xs text-accent-green flex items-center gap-2">
-                <Database className="w-3 h-3" />
-                Using uploaded data
-              </div>
-            )}
-
-            <Link
-              href="/priorities"
-              className="px-4 py-2 rounded-lg font-medium transition-all flex items-center gap-2 border border-grid text-text-secondary hover:border-accent-green hover:text-accent-green"
-            >
-              <ListOrdered className="w-4 h-4" />
-              Priorities
-            </Link>
-
-            <button
-              onClick={() => setShowUpload(!showUpload)}
-              className={`
-                px-4 py-2 rounded-lg font-medium transition-all flex items-center gap-2
-                ${showUpload
-                  ? 'bg-grid text-text-secondary'
-                  : 'bg-accent-green text-background hover:bg-accent-green-light'
-                }
-              `}
-            >
-              <UploadIcon className="w-4 h-4" />
-              {showUpload ? 'Hide Upload' : 'Upload Data'}
-            </button>
-
-            <div className="text-right">
-              <div className="text-text-secondary text-sm">Week of</div>
-              <div className="text-text-primary font-semibold">
-                {new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
-              </div>
-            </div>
-            <div className="w-3 h-3 bg-accent-green rounded-full animate-pulse" />
-          </div>
+    <div className="min-h-screen bg-background p-4 sm:p-6 lg:p-8">
+      {/* Header — minimal, black canvas */}
+      <header className="mb-6 sm:mb-10 flex flex-wrap items-center justify-between gap-4">
+        <div>
+          <h1 className="text-2xl sm:text-3xl font-bold text-text-primary tracking-tight">
+            Ember <span className="text-accent-green">CEO Dashboard</span>
+          </h1>
+          <p className="text-text-secondary text-xs sm:text-sm mt-1">
+            Executive Decision Cockpit
+          </p>
+          <p className="text-text-secondary/80 text-xs mt-0.5">
+            Data as of {DATA_AS_OF.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' })}
+          </p>
+        </div>
+        <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
+          {hasUploadedData && (
+            <span className="px-2.5 py-1 bg-accent-green/20 rounded text-xs text-accent-green flex items-center gap-1.5">
+              <Database className="w-3 h-3" />
+              Uploaded data
+            </span>
+          )}
+          <button
+            onClick={copySummary}
+            className="text-sm px-3 py-1.5 rounded border border-grid text-text-secondary hover:border-accent-green hover:text-accent-green transition-colors flex items-center gap-2"
+            title="Copy key metrics to clipboard"
+          >
+            {copied ? <Check className="w-4 h-4 text-accent-green" /> : <Copy className="w-4 h-4" />}
+            {copied ? 'Copied' : 'Copy summary'}
+          </button>
+          <Link
+            href="/priorities"
+            className="text-sm text-text-secondary hover:text-accent-green transition-colors flex items-center gap-2"
+          >
+            <ListOrdered className="w-4 h-4" />
+            Priorities
+          </Link>
+          <button
+            onClick={() => setShowUpload(!showUpload)}
+            className={`text-sm px-3 py-1.5 rounded border transition-colors flex items-center gap-2 ${showUpload ? 'border-grid text-text-secondary' : 'border-accent-green text-accent-green hover:bg-accent-green/10'}`}
+          >
+            <UploadIcon className="w-4 h-4" />
+            {showUpload ? 'Hide' : 'Upload'}
+          </button>
+          <span className="w-2 h-2 bg-accent-green rounded-full animate-pulse" title="Live" />
         </div>
       </header>
 
-      {/* Dashboard Sections */}
-      <main className="max-w-[1800px] mx-auto space-y-8">
-        {/* File Upload Section */}
-        {showUpload && (
-          <FileUpload onDataAnalyzed={handleDataAnalyzed} />
-        )}
+      {/* Dashboard Sections — 32px section spacing */}
+      <main className="max-w-[1800px] mx-auto space-y-6 sm:space-y-8">
+        {showUpload && <FileUpload onDataAnalyzed={handleDataAnalyzed} />}
 
         <ExecutiveSnapshot />
 
@@ -100,10 +117,8 @@ export default function Dashboard() {
         <CEOFocus />
       </main>
 
-      {/* Footer */}
-      <footer className="mt-16 pt-8 border-t border-grid text-center text-text-secondary text-sm">
-        <p>Ember CEO Dashboard v1.0 • Built with Next.js & Recharts</p>
-        <p className="mt-2">This is a decision instrument, not a reporting tool.</p>
+      <footer className="mt-8 sm:mt-12 pt-4 sm:pt-6 border-t border-grid text-center text-text-secondary text-xs">
+        Ember CEO Dashboard · Decision instrument, not a reporting tool.
       </footer>
     </div>
   )

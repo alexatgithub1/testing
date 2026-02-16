@@ -20,34 +20,49 @@ An executive decision cockpit for Ember - a consumer Web3/sweepstakes gaming com
 - **Charts**: Recharts
 - **Icons**: Lucide React
 
-## Quick Start
+## Quick Start — See a Demo
 
 ### Prerequisites
 
-- Node.js 18+ installed
-- npm or yarn
+- **Node.js 18+** and **npm** (or yarn)
 
-### Installation
+### Run the CEO dashboard (important: use this app’s folder)
 
-1. **Navigate to the project directory**:
+The CEO dashboard is the **ember-dashboard** app. Run everything from inside that folder so you don’t start the wrong project (e.g. macro-tracker).
+
+1. **Open a terminal and go to the folder that contains `ember-dashboard`** (e.g. your repo root):
    ```bash
+   cd "/Users/alexwang/GitHub Test"
    cd ember-dashboard
    ```
+   If you’re already in the repo root, `cd ember-dashboard` is enough.
 
-2. **Install dependencies**:
+2. **Install dependencies** (first time only):
    ```bash
    npm install
    ```
 
-3. **Run the development server**:
+3. **Start the dev server**:
    ```bash
    npm run dev
    ```
+   This app is set to use **port 3010**, so you should see:
+   `Local: http://localhost:3010`
 
-4. **Open your browser**:
-   Navigate to [http://localhost:3000](http://localhost:3000)
+4. **Open http://localhost:3010** in your browser. The CEO dashboard loads with mock data — no API or env vars required.
 
-That's it! The dashboard will load with mock data.
+To stop the server: press `Ctrl+C` in the terminal.
+
+**If you see 404 or “missing required error components”:** You may be running a different app (e.g. macro-tracker). Stop that server (Ctrl+C), then from this folder run `npm run dev` and open **http://localhost:3010** (this app uses port 3010 on purpose so it doesn’t get mixed up with other Next apps).
+
+### Production build (optional)
+
+From **ember-dashboard**:
+```bash
+npm run build
+npm start
+```
+Then open the URL shown (e.g. [http://localhost:3000](http://localhost:3000)).
 
 ## Project Structure
 
